@@ -6,31 +6,31 @@
         .service('dataService', function ($http) {
 
             //GET /api/recipes - Gets all of the recipes.
-            this.getRecipes = function (successCallback, errorCallback) {
+            this.getRecipes = function (successCallback) {
                 $http.get('/api/recipes')
                     .then(successCallback)
             };
 
             //GET /api/categories - Gets all of the categories.
-            this.getCategories = function (successCallback, errorCallback) {
+            this.getCategories = function (successCallback) {
                 $http.get('/api/categories')
                     .then(successCallback)
             };
 
             //GET /api/fooditems - Gets all of the food items.
-            this.getFooditems = function (successCallback, errorCallback) {
+            this.getFooditems = function (successCallback) {
                 $http.get('/api/fooditems')
                     .then(successCallback)
             };
 
             //GET /api/recipes?category={category} - Gets all of the recipes for the specified category.
-            this.getRecipiesInCategory = function (category, successCallback, errorCallback) {
+            this.getRecipiesInCategory = function (category, successCallback) {
                 $http.get('/api/recipes?category=' + category)
                     .then(successCallback)
             }
 
             //GET /api/recipes/{id} - Gets the recipe for the specified ID.
-            this.getRecipe = function (id, callback, errorCallback) {
+            this.getRecipe = function (id, callback) {
                 $http.get('/api/recipes/' + id)
                     .then(callback)
             }
@@ -48,7 +48,7 @@
             };
 
             //DELETE /api/recipes/{id} - Deletes the recipe for the specified ID.
-            this.deleteRecipe = function (id, successCallback, errorCallback) {
+            this.deleteRecipe = function (id, successCallback) {
                 $http.delete('/api/recipes/' + id)
                     .then(successCallback)
             }

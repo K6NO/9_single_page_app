@@ -1,3 +1,5 @@
+// directive asking for confirmation before recipe is deleted
+
 (function(){
     'use strict';
 

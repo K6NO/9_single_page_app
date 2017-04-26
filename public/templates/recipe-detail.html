@@ -16,8 +16,6 @@
   <div class="grid-100">
     <p><i>The following errors were found:</i></p>
     <ul class="validation-errors">
-      <!-- TODO Add a directive to this li element so that it repeats
-        for each validation message that there is to display -->
       <li ng-repeat="error in errors">
         {{error}}
       </li>
@@ -49,8 +47,6 @@
   </div>
   <div class="grid-60">
     <p>
-      <!-- TODO Add a directive to this textarea element to bind its content 
-        to the recipe model's `description` property. -->
       <textarea ng-model="recipe.description"></textarea>
     </p>
   </div>
@@ -65,10 +61,7 @@
   </div>
   <div class="grid-30">
     <p>
-      <!-- TODO Add directives to this select element to bind its value 
-        to the recipe model's `category` property and to populate the list
-        with the categories from the database. -->
-      <select ng-options="category as category.name for category in categories" ng-model="recipe.category">
+      <select ng-model="recipe.category" ng-options="category.name as category.name for category in categories track by category.name" ng-change="updateRecipeCategory(recipe.category)">
         <option value="">All Categories</option>
       </select>
     </p>

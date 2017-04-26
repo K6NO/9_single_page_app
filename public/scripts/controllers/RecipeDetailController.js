@@ -4,6 +4,11 @@
 
     angular.module('app')
         .controller('RecipeDetailController', function ($scope, $location, dataService) {
+
+            dataService.getFooditems(function (response) {
+                $scope.foodItems = response.data;
+            });
+            // populate fields with edited recipe details or create empty object if new recipe
             let recipeId = $location.path().split('/')[2];
             if (recipeId !== undefined) {
                 dataService.getRecipe(recipeId, function (response) {
@@ -14,29 +19,27 @@
                 $scope.recipe.ingredients = [];
                 $scope.recipe.steps = [];
             }
+
             dataService.getCategories(function (response) {
                 $scope.categories = response.data;
-                if ($scope.recipe) {
-                    let index = $scope.categories.findIndex(category => category.name == $scope.recipe.category);
-                    $scope.selectedCategory = $scope.categories[index];
-                }
             });
 
-            dataService.getFooditems(function (response) {
-                $scope.foodItems = response.data;
-                console.log($scope.foodItems)
-            });
+            // must add track by to the ng-options in the template! --> ng-options="category.name as category.name for category in categories track by category.name"
+            $scope.updateRecipeCategory = function (selectedCategory) {
+                let index = $scope.categories.findIndex(category => category.name == selectedCategory);
+                $scope.recipe.category = $scope.categories[index];
+
+            };
 
             $scope.clearForm = function () {
                 $scope.recipe = {};
                 $location.path('/');
             };
 
+            // add new recipe to the DB or update existing one
             $scope.saveRecipe = function () {
                 if ($location.path() === '/add') {
-                    dataService.addRecipe($scope.recipe, function (response) {
-                        console.log('Recipe added');
-                        console.log(response);
+                    dataService.addRecipe($scope.recipe, function () {
                         $location.path('/');
                     }, errorCallback)
                 } else {
@@ -63,6 +66,7 @@
                 steps.splice(index, 1);
             };
 
+            // for future work - express does not return errors yet
             function errorCallback(response) {
                 console.log('errorCallback');
                 $scope.errors = response.data.errors;
