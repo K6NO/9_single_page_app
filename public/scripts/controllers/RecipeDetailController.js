@@ -13,6 +13,7 @@
             if (recipeId !== undefined) {
                 dataService.getRecipe(recipeId, function (response) {
                     $scope.recipe = response.data;
+                    console.log($scope.recipe);
                 });
             } else {
                 $scope.recipe = {};
@@ -26,8 +27,9 @@
 
             // must add track by to the ng-options in the template! --> ng-options="category.name as category.name for category in categories track by category.name"
             $scope.updateRecipeCategory = function (selectedCategory) {
+                console.log(selectedCategory);
                 let index = $scope.categories.findIndex(category => category.name == selectedCategory);
-                $scope.recipe.category = $scope.categories[index];
+                $scope.recipe.category = $scope.categories[index].name;
 
             };
 
@@ -40,11 +42,13 @@
             $scope.saveRecipe = function () {
                 if ($location.path() === '/add') {
                     dataService.addRecipe($scope.recipe, function () {
+                        console.log($scope.recipe);
                         $location.path('/');
                     }, errorCallback)
                 } else {
                     dataService.updateRecipe($scope.recipe._id, $scope.recipe, function () {
                         console.log('Recipe ' + $scope.recipe.name + ' updated');
+                        console.log($scope.recipe);
                         $location.path('/');
                     }, errorCallback)
                 }
